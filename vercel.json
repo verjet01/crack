@@ -4,9 +4,12 @@
     {
       "src": "backend/src/index.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
     }
   ],
-  "installCommand": "cd backend && npm install --production",
   "routes": [
     {
       "src": "/api/(.*)",
@@ -22,19 +25,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/$1"
-    }
-  ],
-  "outputDirectory": "frontend",
-  "framework": null,
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
-      ]
+      "dest": "frontend/$1"
     }
   ]
 }
