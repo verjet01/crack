@@ -1,54 +1,49 @@
-const winston = require('winston');
-const path = require('path');
 const config = require('../config');
 
-// Define log format
-const logFormat = winston.format.combine(
-  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  winston.format.errors({ stack: true }),
-  winston.format.json()
-);
+/**
+ * Simple logger - no external dependencies
+ * Compatible with Vercel Serverless environment
+ */
 
-// Define console format for development
-const consoleFormat = winston.format.combine(
-  winston.format.colorize(),
-  winston.format.timestamp({ format: 'HH:mm:ss' }),
-  winston.format.printf(({ timestamp, level, message, ...meta }) => {
-    let msg = `${timestamp} [${level}]: ${message}`;
-    if (Object.keys(meta).length > 0) {
-      msg += ` ${JSON.stringify(meta)}`;
-    }
-    return msg;
-  })
-);
+const LOG_LEVELS = {
+  error: 0,
+  warn: 1,
+  info: 2,
+  debug: 3
+};
 
-// Create logger instance
-const logger = winston.createLogger({
-  level: config.logLevel,
-  format: logFormat,
-  defaultMeta: { service: 'ideacrack' },
-  transports: [
-    // Write all logs with level 'error' and below to error.log
-    new winston.transports.File({
-      filename: path.join(config.logFile, '..', 'error.log'),
-      level: 'error',
-      maxsize: 5242880, // 5MB
-      maxFiles: 5
-    }),
-    // Write all logs to combined.log
-    new winston.transports.File({
-      filename: config.logFile,
-      maxsize: 5242880, // 5MB
-      maxFiles: 5
-    })
-  ]
-});
+const currentLevel = LOG_LEVELS[config.logLevel] || LOG_LEVELS.info;
 
-// If not in production, also log to console
-if (config.nodeEnv !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: consoleFormat
-  }));
+function formatMessage(level, message, meta) {
+  var timestamp = new Date().toISOString();
+  var metaStr = (meta && Object.keys(meta).length > 0) ? ' ' + JSON.stringify(meta) : '';
+  return timestamp + ' [' + level.toUpperCase() + ']: ' + message + metaStr;
 }
+
+var logger = {
+  error: function(message, meta) {
+    if (currentLevel >= LOG_LEVELS.error) {
+      console.error(formatMessage('error', message, meta));
+    }
+  },
+  
+  warn: function(message, meta) {
+    if (currentLevel >= LOG_LEVELS.warn) {
+      console.warn(formatMessage('warn', message, meta));
+    }
+  },
+  
+  info: function(message, meta) {
+    if (currentLevel >= LOG_LEVELS.info) {
+      console.log(formatMessage('info', message, meta));
+    }
+  },
+  
+  debug: function(message, meta) {
+    if (currentLevel >= LOG_LEVELS.debug) {
+      console.log(formatMessage('debug', message, meta));
+    }
+  }
+};
 
 module.exports = logger;

@@ -5,12 +5,8 @@ const config = {
   port: parseInt(process.env.PORT || '3000', 10),
   nodeEnv: process.env.NODE_ENV || 'development',
   
-  // Database
-  dbPath: process.env.DB_PATH || './data/database.sqlite',
-  
   // Logging
   logLevel: process.env.LOG_LEVEL || 'info',
-  logFile: process.env.LOG_FILE || './logs/app.log',
   
   // Security
   corsOrigin: process.env.CORS_ORIGIN || '*',
