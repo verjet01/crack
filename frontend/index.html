@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDEActivation - JetBrains 激活平台</title>
+    <meta name="description" content="JetBrains IDE 激活平台 - 仅供学习研究使用">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">IDEActivation</span>
+                </div>
+                <nav class="nav">
+                    <a href="#home" class="nav-link active">首页</a>
+                    <a href="#activate" class="nav-link">激活</a>
+                    <a href="#download" class="nav-link">下载</a>
+                    <a href="#faq" class="nav-link">帮助</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    JetBrains IDE
+                    <span class="highlight">激活平台</span>
+                </h1>
+                <p class="hero-subtitle">
+                    一键激活所有 JetBrains IDE · 仅供学习研究使用
+                </p>
+                <div class="hero-warning">
+                    ⚠️ 本平台仅供技术学习和研究，请支持正版软件
+                </div>
+                
+                <!-- Copy Commands -->
+                <div class="copy-section">
+                    <h2 class="section-title">快速激活</h2>
+                    <div class="copy-buttons">
+                        <button class="copy-btn windows" onclick="copyCommand('windows')">
+                            <span class="btn-icon">🪟</span>
+                            <span class="btn-text">Windows</span>
+                            <span class="btn-command">irm <span class="domain">localhost:3000</span>|iex</span>
+                        </button>
+                        <button class="copy-btn linux" onclick="copyCommand('linux')">
+                            <span class="btn-icon">🐧</span>
+                            <span class="btn-text">Linux</span>
+                            <span class="btn-command">wget -q <span class="domain">localhost:3000</span> -O - | bash</span>
+                        </button>
+                        <button class="copy-btn mac" onclick="copyCommand('mac')">
+                            <span class="btn-icon">🍎</span>
+                            <span class="btn-text">Mac</span>
+                            <span class="btn-command">curl -Ls <span class="domain">localhost:3000</span> | bash</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activate Section -->
+    <section id="activate" class="activate-section">
+        <div class="container">
+            <h2 class="section-title">自定义激活码</h2>
+            <div class="activate-card">
+                <div class="form-group">
+                    <label for="licenseName">许可证名称</label>
+                    <input type="text" id="licenseName" placeholder="输入许可证名称（可选）" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label for="assigneeName">授权人名称</label>
+                    <input type="text" id="assigneeName" placeholder="输入授权人名称（可选）" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label for="expiryDate">过期时间</label>
+                    <input type="date" id="expiryDate" value="2099-12-31">
+                </div>
+                <div class="form-group">
+                    <label>选择产品</label>
+                    <div class="product-grid">
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="II" checked>
+                            <span>IntelliJ IDEA</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="PC">
+                            <span>PyCharm</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="PS">
+                            <span>PhpStorm</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="GO">
+                            <span>GoLand</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="WS">
+                            <span>WebStorm</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="CL">
+                            <span>CLion</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="RD">
+                            <span>Rider</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="DB">
+                            <span>DataGrip</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="RM">
+                            <span>RubyMine</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="AC">
+                            <span>AppCode</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="DS">
+                            <span>DataSpell</span>
+                        </label>
+                        <label class="product-item">
+                            <input type="checkbox" name="product" value="RR">
+                            <span>RustRover</span>
+                        </label>
+                    </div>
+                </div>
+                <button class="generate-btn" onclick="generateLicense()">
+                    生成激活码
+                </button>
+                
+                <!-- Result -->
+                <div id="result" class="result" style="display: none;">
+                    <div class="result-header">
+                        <span class="result-title">激活码</span>
+                        <button class="copy-result-btn" onclick="copyResult()">复制</button>
+                    </div>
+                    <textarea id="licenseKey" class="result-text" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download-section">
+        <div class="container">
+            <h2 class="section-title">下载组件</h2>
+            <div class="download-grid">
+                <div class="download-card">
+                    <div class="download-icon">📦</div>
+                    <h3>ja-netfilter.jar</h3>
+                    <p>核心 Java Agent</p>
+                    <a href="/ja-netfilter/ja-netfilter.jar" class="download-btn">下载</a>
+                </div>
+                <div class="download-card">
+                    <div class="download-icon">⚙️</div>
+                    <h3>配置文件</h3>
+                    <p>config/*.conf</p>
+                    <a href="/ja-netfilter/config/" class="download-btn">下载</a>
+                </div>
+                <div class="download-card">
+                    <div class="download-icon">🔌</div>
+                    <h3>插件</h3>
+                    <p>plugins/*.jar</p>
+                    <a href="/ja-netfilter/plugins/" class="download-btn">下载</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <h2 class="section-title">常见问题</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>如何使用激活码？</span>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>1. 打开 JetBrains IDE</p>
+                        <p>2. 点击 Help → Edit Custom VM Options</p>
+                        <p>3. 添加: -javaagent:/path/to/ja-netfilter.jar</p>
+                        <p>4. 重启 IDE</p>
+                        <p>5. 点击 Help → Manage Subscriptions</p>
+                        <p>6. 粘贴激活码</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>激活码有效期是多久？</span>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>默认有效期到 2099 年 12 月 31 日，可以在生成时自定义。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>支持哪些 IDE？</span>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>支持 JetBrains 全家桶：IntelliJ IDEA、PyCharm、PhpStorm、GoLand、WebStorm、CLion、Rider、DataGrip、RubyMine、AppCode、DataSpell、RustRover。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>为什么提示 Key is invalid？</span>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>请确保：</p>
+                        <p>1. ja-netfilter.jar 路径正确</p>
+                        <p>2. 已重启 IDE</p>
+                        <p>3. 之前使用过其它激活工具的，先取消激活</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="todayTotal">0</span>
+                    <span class="stat-label">今日使用</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="windowsCount">0</span>
+                    <span class="stat-label">Windows</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="macLinuxCount">0</span>
+                    <span class="stat-label">Mac/Linux</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    IDEActivation - JetBrains 激活平台 · 仅供学习研究使用
+                </p>
+                <p class="footer-disclaimer">
+                    ⚠️ 请支持正版软件：<a href="https://www.jetbrains.com" target="_blank">www.jetbrains.com</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

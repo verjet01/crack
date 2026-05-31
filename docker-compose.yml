@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # Node.js 后端服务
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ideacrack-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ../idea-set:/app/ja-netfilter:ro
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_PATH=/app/data/database.sqlite
+      - LOG_LEVEL=info
+      - LOG_FILE=/app/logs/app.log
+      - SITE_URL=http://localhost
+    restart: unless-stopped
+    networks:
+      - ideacrack-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx 反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: ideacrack-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend:/usr/share/nginx/html:ro
+      - ../idea-set:/usr/share/nginx/html/ja-netfilter:ro
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - ideacrack-network
+
+networks:
+  ideacrack-network:
+    driver: bridge
