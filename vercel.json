@@ -1,21 +1,14 @@
 {
   "version": 2,
   "public": true,
-  "builds": [
-    {
-      "src": "backend/src/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "frontend/**",
-      "use": "@vercel/static"
-    }
-  ],
+  "installCommand": "cd backend && npm install --production",
+  "buildCommand": "",
+  "outputDirectory": "frontend",
   "routes": [
     { "src": "/api/(.*)", "dest": "backend/src/index.js" },
     { "src": "/activate", "dest": "backend/src/index.js" },
     { "src": "/ja-netfilter/(.*)", "dest": "backend/src/index.js" },
-    { "src": "/(.*\\.(css|js|html|png|jpg|ico|svg))", "dest": "frontend/$1" },
-    { "src": "/(.*)", "dest": "frontend/index.html" }
+    { "src": "/(.*\\.(css|js|html|png|jpg|ico|svg))", "dest": "/frontend/$1" },
+    { "src": "/(.*)", "dest": "/frontend/index.html" }
   ]
 }
