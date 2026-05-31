@@ -6,6 +6,7 @@
       "use": "@vercel/node"
     }
   ],
+  "installCommand": "cd backend && npm install --production",
   "routes": [
     {
       "src": "/api/(.*)",
