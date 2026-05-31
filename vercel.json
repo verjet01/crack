@@ -1,31 +1,15 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "backend/src/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "frontend/**",
-      "use": "@vercel/static"
+  "public": true,
+  "functions": {
+    "backend/src/index.js": {
+      "includeFiles": "frontend/**"
     }
-  ],
+  },
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "backend/src/index.js"
-    },
-    {
-      "src": "/activate",
-      "dest": "backend/src/index.js"
-    },
-    {
-      "src": "/ja-netfilter/(.*)",
-      "dest": "backend/src/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/$1"
-    }
+    { "src": "/api/(.*)", "dest": "/backend/src/index.js" },
+    { "src": "/activate", "dest": "/backend/src/index.js" },
+    { "src": "/ja-netfilter/(.*)", "dest": "/backend/src/index.js" },
+    { "src": "/(.*)", "dest": "/frontend/$1" }
   ]
 }
